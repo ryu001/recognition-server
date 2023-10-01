@@ -4,8 +4,6 @@
   "version": "0.0.0",
   "main": "server.ts",
   "scripts": {
-    "dev:init": "vite",
-    "build:init": "vue-tsc && vite build",
     "preview": "vite preview",
     "build": "tsc",
     "dev": "node ./build/server.js",
