@@ -1,5 +1,5 @@
 import { ResultSetHeader } from 'mysql2'
-import connection from '../db'
+import pool from '../db'
 
 import { Recognition, Activity } from '../models/recognition.model'
 
@@ -22,7 +22,7 @@ class RecognitionRepository implements IRecognitionRepository {
    */
   createRecognition(recognition: Recognition): Promise<number> {
     return new Promise((resolve, reject) => {
-      connection.query<ResultSetHeader>(
+      pool.query<ResultSetHeader>(
         'INSERT INTO recognition (recognitionUserId, createUserId, point, detail) VALUES(?,?,?,?)',
         [recognition.recognitionUserId,
           recognition.createUserId,
@@ -46,7 +46,7 @@ class RecognitionRepository implements IRecognitionRepository {
    */
   getRecognitionsByCreateUserId(id: number, offset: number, limit: number): Promise<Activity[]> {
     return new Promise((resolve, reject) => {
-      connection.query<Activity[]>(
+      pool.query<Activity[]>(
         `SELECT r.id as recognitionId,
         u.userName as recognitionUserName,
         DATE_FORMAT(r.createdTime,'%Y-%m-%d') as recognitionCreatedTime,

@@ -51,7 +51,7 @@ export default class UserController {
         res.status(200).send(result)
       }
       else res.status(400).send({
-        message: 'password is not correct.'
+        message: 'login id or password is not correct.'
       })
 
     } catch (err) {

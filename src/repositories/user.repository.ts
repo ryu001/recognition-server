@@ -1,5 +1,5 @@
 import { ResultSetHeader } from 'mysql2'
-import connection from '../db'
+import pool from '../db'
 import { LoginInfo, User, UserPoint } from '../models/user.model'
 
 /**
@@ -27,7 +27,7 @@ class UserRepository implements IUserRepository {
    */
   retrieveByLoginInfo(loginInfo: LoginInfo): Promise<User | undefined> {
     return new Promise((resolve, reject) => {
-      connection.query<User[]>(
+      pool.query<User[]>(
         'SELECT id, loginId, userName, userMail, userRole, avatarUrl FROM user WHERE loginId = ? and password = ?',
         [loginInfo.loginId, loginInfo.password],
         (err, res) => {
@@ -53,7 +53,7 @@ class UserRepository implements IUserRepository {
     return new Promise((resolve, reject) => {
       const query = `SELECT id, userMail, userName, userRole, avatarUrl FROM user WHERE id <> ? `+ (userName ? ` and userName like ?` : ``) + ` limit ? offset ?`
       const parameter = userName ? [id, `%${userName}%`, limit, offset] : [id, limit, offset]
-      connection.query<User[]>(
+      pool.query<User[]>(
         query,
         parameter,
         (err, res) => {
@@ -74,7 +74,7 @@ class UserRepository implements IUserRepository {
    */
   retrieveUserPoint(id: number): Promise<UserPoint> {
     return new Promise((resolve, reject) => {
-      connection.query<[UserPoint]>(
+      pool.query<[UserPoint]>(
         `SELECT recognitionUserId, sum(point) as point
         FROM recognition
         WHERE recognitionUserId = ?`,
@@ -98,7 +98,7 @@ class UserRepository implements IUserRepository {
    */
   updateLoginToken(id: number, token: string): Promise<number> {
     return new Promise((resolve, reject) => {
-      connection.query<ResultSetHeader>(
+      pool.query<ResultSetHeader>(
         'UPDATE user SET token = ? where id = ?',
         [token, id],
         (err, res) => {
