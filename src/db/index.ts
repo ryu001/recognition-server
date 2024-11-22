@@ -10,6 +10,7 @@ import dbConfig from './db.config'
 
 // mongodb
 
+// redis
 export default mysql.createPool({
   host: dbConfig.HOST,
   user: dbConfig.USER,
