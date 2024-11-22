@@ -8,6 +8,8 @@ import dbConfig from './db.config'
 //   database: dbConfig.DB
 // })
 
+// mongodb
+
 export default mysql.createPool({
   host: dbConfig.HOST,
   user: dbConfig.USER,
