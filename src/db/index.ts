@@ -11,6 +11,8 @@ import dbConfig from './db.config'
 // mongodb
 
 // redis
+
+// casandra
 export default mysql.createPool({
   host: dbConfig.HOST,
   user: dbConfig.USER,
